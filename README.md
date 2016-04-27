@@ -1,2 +1,2 @@
 # projekt-pb138
-Projekt do předmětu PB138
+Projekt do předmětu PB138.
