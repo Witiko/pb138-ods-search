@@ -1,2 +1,2 @@
-# projekt-pb138
+# pb138-ods-search
 Projekt do předmětu PB138.
