@@ -106,7 +106,7 @@ public class Cell {
     @Override
     public String toString() {
         return "[Document " + document + ", table " + table + ", row " + row +
-                "column " + column + ": " + content + "]";
+                ", column " + column + ": " + content + "]";
     }
     
 }
