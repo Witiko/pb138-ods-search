@@ -6,6 +6,7 @@ import cz.muni.fi.pb138.odsSearch.common.Queriable;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
@@ -20,6 +21,8 @@ public class MainFrame extends javax.swing.JFrame {
     private final JFileChooser fileChooser = new JFileChooser();
     private Set<Queriable<Cell>> finders = new HashSet<>();
     private final ResultListModel results = new ResultListModel();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
+            + "pb138/odsSearch/gui/MainFrame");
     
     /**
      * Creates new form MainFrame
@@ -38,7 +41,8 @@ public class MainFrame extends javax.swing.JFrame {
         // Set up the file chooser.
         fileChooser.setMultiSelectionEnabled(true);
         fileChooser.setFileFilter(new FileNameExtensionFilter(
-                "OpenDocument Spreadsheets", "ods"));
+                bundle.getString("fileExtensionODS"), "ods"));
+        fileChooser.setDialogTitle(bundle.getString("fileChooserTitle"));
     }
     
     /**
@@ -85,19 +89,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         filesTextField = new javax.swing.JTextField();
         fileChooserButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        filesTextFieldLabel = new javax.swing.JLabel();
+        queryTextAreaLabel = new javax.swing.JLabel();
         caseSensitiveCheckBox = new javax.swing.JCheckBox();
         exactMatchCheckBox = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        queryTextarea = new javax.swing.JTextArea();
+        queryTextArea = new javax.swing.JTextArea();
         submitButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         resultList = new javax.swing.JList<>();
-        jLabel3 = new javax.swing.JLabel();
+        resultListLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("OpenDocument Spreadsheet Search");
+        setTitle(bundle.getString("mainTitle")
+        );
 
         filesTextField.setEditable(false);
         filesTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -106,31 +111,31 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        fileChooserButton.setText("Choose...");
+        fileChooserButton.setText(bundle.getString("fileChooserButtonLabel"));
         fileChooserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileChooserButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Files:");
+        filesTextFieldLabel.setText(bundle.getString("filesTextFieldLabel"));
 
-        jLabel2.setText("Term:");
+        queryTextAreaLabel.setText(bundle.getString("queryTextAreaLabel"));
 
-        caseSensitiveCheckBox.setText("Case-sensitive");
+        caseSensitiveCheckBox.setText(bundle.getString("caseSensitiveLabel"));
         caseSensitiveCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 caseSensitiveCheckBoxActionPerformed(evt);
             }
         });
 
-        exactMatchCheckBox.setText("Only exact matches");
+        exactMatchCheckBox.setText(bundle.getString("exactMatchLabel"));
 
-        queryTextarea.setColumns(20);
-        queryTextarea.setRows(5);
-        jScrollPane1.setViewportView(queryTextarea);
+        queryTextArea.setColumns(20);
+        queryTextArea.setRows(5);
+        jScrollPane1.setViewportView(queryTextArea);
 
-        submitButton.setText("Search");
+        submitButton.setText(bundle.getString("submitButtonLabel"));
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitButtonActionPerformed(evt);
@@ -140,7 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
         resultList.setModel(results);
         jScrollPane3.setViewportView(resultList);
 
-        jLabel3.setText("Results:");
+        resultListLabel.setText(bundle.getString("resultListLabel"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,10 +158,10 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(filesTextFieldLabel)
                                 .addGap(14, 14, 14))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(queryTextAreaLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -164,14 +169,14 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fileChooserButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(exactMatchCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(caseSensitiveCheckBox)
                                     .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(resultListLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -180,7 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(filesTextFieldLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(filesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                         .addComponent(fileChooserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -188,7 +193,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
+                            .addComponent(queryTextAreaLabel)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(caseSensitiveCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,10 +202,10 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(submitButton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(resultListLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -211,7 +216,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_caseSensitiveCheckBoxActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        String query = queryTextarea.getText();
+        String query = queryTextArea.getText();
         boolean caseSensitive = caseSensitiveCheckBox.isSelected();
         boolean exactMatch = exactMatchCheckBox.isSelected();
         new QuerySwingWorker(query, caseSensitive, exactMatch).execute();
@@ -250,13 +255,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox exactMatchCheckBox;
     private javax.swing.JButton fileChooserButton;
     private javax.swing.JTextField filesTextField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel filesTextFieldLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea queryTextarea;
+    private javax.swing.JTextArea queryTextArea;
+    private javax.swing.JLabel queryTextAreaLabel;
     private javax.swing.JList<String> resultList;
+    private javax.swing.JLabel resultListLabel;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
