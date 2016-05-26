@@ -1,46 +1,44 @@
 package cz.muni.fi.pb138.odsSearch.common;
 
-import java.io.File;
-
 /**
  * This immutable class represents a cell within a spreadsheet.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
 public class Cell {
     
-    private File document;
+    private Spreadsheet spreadsheet;
     private String table;
-    private int row;
-    private int column;
+    private int rown;
+    private int coln;
     private String content;
     
     /**
      * Constructs a cell that carries a reference to its containing document,
      * a table within the document, the coordinates within the table, and its
      * content.
-     * @param document the document that contains the cell.
+     * @param spreadsheet the spreadsheet that contains the table.
      * @param table the table that contains the cell.
-     * @param row the row that contains the cell.
-     * @param column the column that contains the cell.
+     * @param rown the number of the row that contains the cell.
+     * @param coln the number of the column that contains the cell.
      * @param content the text content of the cell.
      */
-    public Cell(File document, String table, int row, int column, String content) {
+    public Cell(Spreadsheet spreadsheet, String table, int rown, int coln, String content) {
         // Check the invariants.
-        if (document == null)
-            throw new IllegalArgumentException("The document must be non-null.");
+        if (spreadsheet == null)
+            throw new IllegalArgumentException("The spreadsheet must be non-null.");
         if (table == null)
             throw new IllegalArgumentException("The table name must be non-null.");
-        if (row < 0)
+        if (rown < 0)
             throw new IllegalArgumentException("The row number must be non-negative.");
-        if (column < 0)            
+        if (coln < 0)            
             throw new IllegalArgumentException("The column number must be non-negative.");
         if (content == null)
             throw new IllegalArgumentException("The cell content must be non-null.");
         // Perform the assignment.
-        this.document = document;
+        this.spreadsheet = spreadsheet;
         this.table = table;
-        this.row = row;
-        this.column = column;
+        this.rown = rown;
+        this.coln = coln;
         this.content = content;
     }
     
@@ -48,8 +46,8 @@ public class Cell {
      * Returns the source document.
      * @return the source document.
      */
-    public File getDocument() {
-        return document;
+    public Spreadsheet getSpreadsheet() {
+        return spreadsheet;
     }
     
     /**
@@ -64,16 +62,16 @@ public class Cell {
      * Returns the row number.
      * @return the row number.
      */
-    public int getRow() {
-        return row;
+    public int getRowNumber() {
+        return rown;
     }
     
     /**
      * Returns the column number.
      * @return the column number.
      */
-    public int getColumn() {
-        return column;
+    public int getColumnNumber() {
+        return coln;
     }
     
     /**
@@ -86,8 +84,8 @@ public class Cell {
     
     @Override
     public int hashCode() {
-        return document.hashCode() + table.hashCode() +
-                row + column + content.hashCode();
+        return spreadsheet.hashCode() + table.hashCode() +
+                rown + coln + content.hashCode();
     }
     
     @Override
@@ -96,17 +94,17 @@ public class Cell {
             return false;
         else {
             Cell that = (Cell)obj;
-            return this.document.equals(that.document) && 
-                    this.table.equals(that.table) &&
-                    this.row == that.row && this.column == that.column &&
-                    this.content.equals(that.content);
+            return this.spreadsheet.equals(that.spreadsheet) && 
+                   this.table.equals(that.table) &&
+                   this.rown == that.rown && this.coln == that.coln &&
+                   this.content.equals(that.content);
         }
     }
     
     @Override
     public String toString() {
-        return "[Document " + document + ", table " + table + ", row " + row +
-                ", column " + column + ": " + content + "]";
+        return "[Spreadsheet " + spreadsheet + ", table " + table +
+                ", row " + rown + ", column " + coln + ": " + content + "]";
     }
     
 }

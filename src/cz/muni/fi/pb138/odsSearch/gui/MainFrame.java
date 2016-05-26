@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.odsSearch.gui;
 
 import cz.muni.fi.pb138.odsSearch.common.Cell;
-import cz.muni.fi.pb138.odsSearch.common.DummyFinder;
+import cz.muni.fi.pb138.odsSearch.common.DummySpreadsheetImpl;
 import cz.muni.fi.pb138.odsSearch.common.Queriable;
 import java.io.File;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MainFrame extends javax.swing.JFrame {
 
     private final JFileChooser fileChooser = new JFileChooser();
-    private Set<Queriable<Cell>> finders = new HashSet<>();
+    private Set<Queriable<Cell>> spreadsheets = new HashSet<>();
     private final ResultListModel results = new ResultListModel();
     private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
             + "pb138/odsSearch/gui/MainFrame");
@@ -63,7 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         @Override
         protected Void doInBackground() throws Exception {
-            for (Queriable<Cell> finder : finders) {
+            for (Queriable<Cell> finder : spreadsheets) {
                 result.addAll(finder.queryFixedString(query,
                         caseSensitive, exactMatch));
             }
@@ -227,9 +227,9 @@ public class MainFrame extends javax.swing.JFrame {
         if (retval == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();
             filesTextField.setText(Arrays.toString(files));
-            finders = new HashSet<>();
+            spreadsheets = new HashSet<>();
             for (File file : files) {
-                finders.add(new DummyFinder(file));
+                spreadsheets.add(new DummySpreadsheetImpl(file));
             }
         }
     }//GEN-LAST:event_fileChooserButtonActionPerformed

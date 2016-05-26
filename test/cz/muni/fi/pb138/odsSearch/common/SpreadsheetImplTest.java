@@ -19,13 +19,13 @@ import org.junit.Test;
  * class cz.muni.fi.pb138.odsSearch.common.OdsFinder.
  * @author Vít Novotný
  */
-public class OdsFinderTest {
-    List<OdsFinder> finders = new ArrayList<>();
+public class SpreadsheetImplTest {
+    List<Spreadsheet> spreadsheets = new ArrayList<>();
     
-    public OdsFinderTest() throws IOException {
+    public SpreadsheetImplTest() throws IOException {
         for (File f : new File[] { new File("resources/example1.ods"),
                                    new File("resources/example2.ods") } )
-            finders.add(new OdsFinder(f));
+            spreadsheets.add(new SpreadsheetImpl(f));
     }
 
     /**
@@ -33,9 +33,9 @@ public class OdsFinderTest {
      */
     @Test
     public void caseSensitiveExactMatch01() {
-        for (OdsFinder f : finders) {
+        for (Spreadsheet f : spreadsheets) {
             Set<Cell> expected = new TreeSet<>();
-            expected.add(new Cell(f.getDocument(), "IMDB Top 250 movies",
+            expected.add(new Cell(f, "IMDB Top 250 movies",
                     14, 0, "The Lord of the Rings:The Two Towers"));
             Set<Cell> returned = f.queryFixedString(
                     "The Lord of the Rings:The Two Towers", true, true);

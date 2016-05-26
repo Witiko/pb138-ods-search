@@ -6,6 +6,7 @@ import java.util.Set;
  * This interface represents an object that can be queried for fixed strings
  * (and perhaps for other things, such as regular expressions, if time permits).
  * @author Vít Novotný <witiko@gmail.com>
+ * @param <Result> The type of the query results.
  */
 public interface Queriable<Result> {
     
