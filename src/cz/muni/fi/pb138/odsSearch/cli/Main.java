@@ -29,10 +29,14 @@ public class Main {
      */
     public static Options constructGnuOptions() {
         final Options gnuOptions = new Options();
-        gnuOptions.addOption("i", "case-sensitive", false, bundle.getString("caseSensitiveDescription"))
-                .addOption("x", "exact-match", false, bundle.getString("exactMatchDescription"))
-                .addOption("s", "string", true, bundle.getString("stringDescription"))
-                .addOption("h", "help", false, bundle.getString("helpDescription"));
+        gnuOptions.addOption("i", "case-sensitive", false, 
+                             bundle.getString("caseSensitiveDescription"))
+                  .addOption("x", "exact-match", false, 
+                             bundle.getString("exactMatchDescription"))
+                  .addOption("s", "string", true, 
+                             bundle.getString("stringDescription"))
+                  .addOption("h", "help", false, 
+                             bundle.getString("helpDescription"));
 
         return gnuOptions;
     }
@@ -47,23 +51,29 @@ public class Main {
         final CommandLineParser cmdLineGnuParser = new GnuParser();
         final Options gnuOptions = constructGnuOptions();
         CommandLine commandLine;
+
         try {
-            commandLine = cmdLineGnuParser.parse(gnuOptions, commandLineArguments, false);
-            if (commandLine.hasOption("i") || commandLine.hasOption("case-sensitive")) {
+            commandLine = cmdLineGnuParser.parse(gnuOptions, 
+                          commandLineArguments, false);
+            if (commandLine.hasOption("i") 
+                || commandLine.hasOption("case-sensitive")) {
                 System.out.println("Using case sensitive search\n");
             }
-            if (commandLine.hasOption('x') || commandLine.hasOption("exact-match")) {
+            if (commandLine.hasOption('x') 
+                || commandLine.hasOption("exact-match")) {
                 System.out.println("Using exact match search\n");
             }
             if (commandLine.hasOption("h") || commandLine.hasOption("help")) {
                 System.out.println(bundle.getString("appDescription"));
-                printHelp(
-                        constructGnuOptions(), 80, "\n", "\n", 5, 3, false, System.out);
+
+                printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false, 
+                          System.out);
             }
 
             // To be replaced
-            System.out.println("Files: " + Arrays.toString(commandLine.getArgs()) + "\n"
-                    + "String: " + commandLine.getOptionValue("s"));
+            System.out.println("Files: " 
+                               + Arrays.toString(commandLine.getArgs()) + "\n"
+                               + "String: " + commandLine.getOptionValue("s"));
 
         } catch (ParseException parseException) // checked exception
         {
@@ -80,10 +90,8 @@ public class Main {
      * @param options Command-line options to be part of usage.
      * @param out OutputStream to which to write the usage information.
      */
-    public static void printUsage(
-            final String applicationName,
-            final Options options,
-            final OutputStream out) {
+    public static void printUsage(final String applicationName,
+            final Options options, final OutputStream out) {
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter usageFormatter = new HelpFormatter();
         usageFormatter.printUsage(writer, 80, applicationName, options);
@@ -93,28 +101,18 @@ public class Main {
     /**
      * Write "help" to the provided OutputStream.
      */
-    public static void printHelp(
-            final Options options,
-            final int printedRowWidth,
-            final String header,
-            final String footer,
-            final int spacesBeforeOption,
-            final int spacesBeforeOptionDescription,
-            final boolean displayUsage,
+    public static void printHelp(final Options options, 
+            final int printedRowWidth, final String header, final String footer, 
+            final int spacesBeforeOption, 
+            final int spacesBeforeOptionDescription, final boolean displayUsage,
             final OutputStream out) {
         final String commandLineSyntax = "java -cp pb138-ods-search.jar [-h] [-i] [-s <arg>] [-x] [FILE]...";
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.printHelp(
-                writer,
-                printedRowWidth,
-                commandLineSyntax,
-                header,
-                options,
-                spacesBeforeOption,
-                spacesBeforeOptionDescription,
-                footer,
-                displayUsage);
+        helpFormatter.printHelp(writer, printedRowWidth, commandLineSyntax,
+                                header, options, spacesBeforeOption,
+                                spacesBeforeOptionDescription, footer,
+                                displayUsage);
         writer.flush();
     }
 
