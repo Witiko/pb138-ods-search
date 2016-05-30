@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<!--
+    Document   : transformED.xsd
+    Created on : 26-05-2016
+    Author     : Svetlana Markosová <s.markosova@mail.muni.cz>
+    Description: XML Schema for a transformed .ods file.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    
+    <!-- ROOT -->
+    <xs:element name="document" type="documentType">
+        <!-- coordinates (rown, coln) within a table must be unique -->
+        <xs:unique name="coordsUnique">
+            <xs:selector xpath="table"/>
+            <xs:field xpath="@rown"/>
+            <xs:field xpath="@coln"/>
+        </xs:unique>
+    </xs:element>
+        
+    <!-- TYPES -->
+    <xs:complexType name="documentType">
+        <xs:sequence>
+            <xs:element name="table" type="tableType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="tableType">
+        <xs:sequence>
+            <xs:element name="cell" type="cellType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="cellType">
+        <xs:simpleContent> 
+            <xs:extension base="xs:string"> 
+                <!-- each "cell" element must contain 2 attributes: rown and coln,
+                     representing respectively their row and column number -->
+                <xs:attribute name="rown" type="xs:positiveInteger" use="required"/>
+                <xs:attribute name="coln" type="xs:positiveInteger" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+</xs:schema>
