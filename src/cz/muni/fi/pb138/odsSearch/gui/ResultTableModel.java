@@ -38,10 +38,19 @@ public class ResultTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return 5;
     }
+    
+    /**
+     * Returns the table cell represented by a row.
+     * @param rowIndex the number for the row.
+     * @return the table cell represented by a row.
+     */
+    public Cell getRow(int rowIndex) {
+        return results.get(rowIndex);
+    }
  
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Cell cell = results.get(rowIndex);
+        Cell cell = getRow(rowIndex);
         switch (columnIndex) {
             case 0:
                 return cell.getSpreadsheet();
