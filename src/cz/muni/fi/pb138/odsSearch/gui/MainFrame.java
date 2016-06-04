@@ -24,7 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Set<Queriable<Cell>> spreadsheets = new HashSet<>();
     private final ResultListModel results = new ResultListModel();
     private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
-            + "pb138/odsSearch/gui/MainFrame");    
+            + "pb138/odsSearch/gui/MainFrame");
     private final JComponent[] interactables;
     
     /**
@@ -35,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
         init();
         interactables = new JComponent[] {
             fileChooserButton, submitButton, caseSensitiveCheckBox,
-            exactMatchCheckBox, queryTextArea, resultList
+            exactMatchCheckBox, resultList
         };
     }
     
