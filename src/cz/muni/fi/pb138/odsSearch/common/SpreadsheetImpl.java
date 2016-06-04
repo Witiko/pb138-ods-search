@@ -213,8 +213,10 @@ public class SpreadsheetImpl implements Spreadsheet {
         // Create a new XPath expression.
         XPathFactory xf = XPathFactory.newInstance();
         XPath xpath = xf.newXPath();
-        String expression = "//cell[@rown = $rown and @coln = $coln]";
+        String expression = "//table[@name = $table]/cell[@rown = $rown and "
+                + "@coln = $coln]";
         XPathVariableResolverImpl vars = new XPathVariableResolverImpl();
+        vars.setVariable("table", table);
         vars.setVariable("rown", Integer.toString(rown));
         vars.setVariable("coln", Integer.toString(coln));
         xpath.setXPathVariableResolver(vars);
