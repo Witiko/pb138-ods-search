@@ -7,7 +7,7 @@ import javax.xml.xpath.XPathVariableResolver;
 
 /**
  * This class provides a mapping from XPath variables to strings without
- * any injection vulenrability.
+ * any injection vulnerability.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
 class XPathVariableResolverImpl implements XPathVariableResolver {

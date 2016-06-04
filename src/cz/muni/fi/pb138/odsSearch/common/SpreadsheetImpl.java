@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -29,7 +28,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathVariableResolver;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -89,7 +87,6 @@ public class SpreadsheetImpl implements Spreadsheet {
             throw new SpreadsheetImplException("The file `" + document +
                     " cannot be opened.", e);            
         }
-        
         
         /* Try to convert the XML document into an intermediary document via
            XSLT. This will also parse the input document and therefore check
@@ -153,9 +150,6 @@ public class SpreadsheetImpl implements Spreadsheet {
                     new InputSource(new ByteArrayInputStream(xmlData)),
                     XPathConstants.NODESET);
         } catch(XPathExpressionException e) {
-            throw new RuntimeException("There has been an error in the XPath "
-                    + "expression.", e);
-        } catch(Exception e) {
             throw new RuntimeException("There has been an error in the XPath "
                     + "expression.", e);
         }

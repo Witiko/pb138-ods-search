@@ -4,13 +4,33 @@ import cz.muni.fi.pb138.odsSearch.common.Cell;
 import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImpl;
 import cz.muni.fi.pb138.odsSearch.common.Queriable;
 import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImplException;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Label;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -57,16 +77,26 @@ public class MainFrame extends javax.swing.JFrame {
                 bundle.getString("fileExtensionODS"), "ods"));
         fileChooser.setDialogTitle(bundle.getString("fileChooserTitle"));
         // Set up the context table.
-        resultTable.setCellSelectionEnabled(true);
         ListSelectionModel cellSelectionModel = resultTable.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
           public void valueChanged(ListSelectionEvent e) {
             int[] selectedRow = resultTable.getSelectedRows();
             if (selectedRow.length == 1)
-                context.switchFocus(results.getRow(selectedRow[0]));
+                context.switchFocus(results.getRow(resultTable.
+                        convertRowIndexToModel(selectedRow[0])));
           }
         });
+    }
+    
+    /**
+     * Displays an error message.
+     * @param message the error message.
+     */
+    private void error(String message) {    
+        JOptionPane.showMessageDialog(null,message,
+                bundle.getString("errorDialogTitle"),
+                JOptionPane.ERROR_MESSAGE);
     }
     
     /**
@@ -120,7 +150,7 @@ public class MainFrame extends javax.swing.JFrame {
             // Display the number of results.
             resultTableLabel.setText(bundle.getString("resultTableLabel") +
                     (result.size() > 0 ? " (" + result.size() + "):" : ":"));
-            // Swap the result sets.
+            // Swap the result table data and change the context table focus.
             results.swapList(result);
             context.switchFocus(null);
             // Reenable the GUI.
@@ -136,8 +166,9 @@ public class MainFrame extends javax.swing.JFrame {
     private class ConstructorSwingWorker extends SwingWorker<Void,Void> {
 
         private final File[] files;
-        private File exceptionSource;
-        private SpreadsheetImplException exception;
+        private final List<File> processedFiles = new ArrayList<>();
+        private final Map<File,SpreadsheetImplException> failedFiles =
+                new HashMap<>();
         
         public ConstructorSwingWorker(File[] files) {
             // Disable the GUI.
@@ -154,10 +185,9 @@ public class MainFrame extends javax.swing.JFrame {
             for (File file : files) {
                 try {
                     spreadsheets.add(new SpreadsheetImpl(file));
+                    processedFiles.add(file);
                 } catch (SpreadsheetImplException e) {
-                    exceptionSource = file;
-                    exception = e;
-                    break;
+                    failedFiles.put(file, e);
                 }
             }
             return null;
@@ -165,11 +195,22 @@ public class MainFrame extends javax.swing.JFrame {
         
         @Override
         protected void done() {
-            if (exception == null)
-                filesTextField.setText(Arrays.toString(files));
-            else
-                System.out.println("There was a problem when opening the "
-                        + "file " + exceptionSource + ": " + exception);
+            // Set the content of the file chooser textfield.
+            filesTextField.setText(processedFiles.toString());
+            // Handle the failed files.
+            if (!failedFiles.isEmpty()) {
+                StringBuilder buffer = new StringBuilder();
+                buffer.append("<html>").
+                        append(bundle.getString("errorDialogTextOpen")).
+                        append("<ul>");
+                for (Entry<File, SpreadsheetImplException> entry :
+                        failedFiles.entrySet()) {
+                    buffer.append("<li>").append(entry.getKey()).append(" : ").
+                            append(entry.getValue()).append("</li>");
+                }
+                buffer.append("</ul></html>");
+                error(buffer.toString());
+            }
             // Reenable the GUI.
             fileChooserButton.setText(bundle.getString(
                     "fileChooserButtonLabel"));
@@ -251,6 +292,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         queryTextArea.setColumns(20);
         queryTextArea.setRows(5);
+        queryTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(queryTextArea);
 
         submitButton.setText(bundle.getString("submitButtonLabel"));
@@ -262,12 +304,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         resultTableLabel.setText(bundle.getString("resultTableLabel") + ":");
 
+        resultTable.setAutoCreateRowSorter(true);
         resultTable.setModel(results);
         jScrollPane4.setViewportView(resultTable);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane3.setColumnHeader(null);
 
         contextTable.setModel(context);
         jScrollPane3.setViewportView(contextTable);
