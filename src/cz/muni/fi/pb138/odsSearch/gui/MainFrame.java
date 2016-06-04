@@ -1,8 +1,9 @@
 package cz.muni.fi.pb138.odsSearch.gui;
 
 import cz.muni.fi.pb138.odsSearch.common.Cell;
-import cz.muni.fi.pb138.odsSearch.common.DummySpreadsheetImpl;
+import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImpl;
 import cz.muni.fi.pb138.odsSearch.common.Queriable;
+import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImplException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -229,7 +230,11 @@ public class MainFrame extends javax.swing.JFrame {
             filesTextField.setText(Arrays.toString(files));
             spreadsheets = new HashSet<>();
             for (File file : files) {
-                spreadsheets.add(new DummySpreadsheetImpl(file));
+                try {
+                    spreadsheets.add(new SpreadsheetImpl(file));
+                } catch (SpreadsheetImplException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }//GEN-LAST:event_fileChooserButtonActionPerformed

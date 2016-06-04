@@ -8,6 +8,7 @@ package cz.muni.fi.pb138.odsSearch.common;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,7 +23,7 @@ import org.junit.Test;
 public class SpreadsheetImplTest {
     List<Spreadsheet> spreadsheets = new ArrayList<>();
     
-    public SpreadsheetImplTest() throws IOException {
+    public SpreadsheetImplTest() throws SpreadsheetImplException {
         for (File f : new File[] { new File("resources/example1.ods"),
                                    new File("resources/example2.ods") } )
             spreadsheets.add(new SpreadsheetImpl(f));
@@ -33,12 +34,12 @@ public class SpreadsheetImplTest {
      */
     @Test
     public void caseSensitiveExactMatch01() {
-        for (Spreadsheet f : spreadsheets) {
-            Set<Cell> expected = new TreeSet<>();
-            expected.add(new Cell(f, "IMDB Top 250 movies",
-                    14, 0, "The Lord of the Rings:The Two Towers"));
-            Set<Cell> returned = f.queryFixedString(
-                    "The Lord of the Rings:The Two Towers", true, true);
+        for (Spreadsheet s : spreadsheets) {
+            Set<Cell> expected = new HashSet<>();
+            expected.add(new Cell(s, "IMDB Top 250 movies",
+                    15, 1, "The Lord of the Rings: The Two Towers"));
+            Set<Cell> returned = s.queryFixedString(
+                    "The Lord of the Rings: The Two Towers", true, true);
             Assert.assertTrue(expected.equals(returned));
         }
     }
