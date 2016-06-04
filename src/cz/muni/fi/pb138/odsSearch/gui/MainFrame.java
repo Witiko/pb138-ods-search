@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,7 +24,8 @@ public class MainFrame extends javax.swing.JFrame {
     private Set<Queriable<Cell>> spreadsheets = new HashSet<>();
     private final ResultListModel results = new ResultListModel();
     private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
-            + "pb138/odsSearch/gui/MainFrame");
+            + "pb138/odsSearch/gui/MainFrame");    
+    private final JComponent[] interactables;
     
     /**
      * Creates new form MainFrame
@@ -31,6 +33,10 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         // Initialize the frame.
         init();
+        interactables = new JComponent[] {
+            fileChooserButton, submitButton, caseSensitiveCheckBox,
+            exactMatchCheckBox, queryTextArea, resultList
+        };
     }
     
     /**
@@ -47,7 +53,24 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     /**
-     * This swing worker retrieves the results out of 
+     * Disable the GUI while a Swing worker is running.
+     */
+    private void disableGUI() {
+        for (JComponent c : interactables) {
+            c.setEnabled(false);
+        }
+    }
+    
+    /**
+     * Enable the GUI while after a Swing worker is done running.
+     */
+    private void enableGUI() {
+        for (JComponent c : interactables)
+            c.setEnabled(true);
+    }
+    
+    /**
+     * This swing worker retrieves the results for a query out of the spreadsheets.
      */
     private class QuerySwingWorker extends SwingWorker<Void,Void> {
         
@@ -57,6 +80,7 @@ public class MainFrame extends javax.swing.JFrame {
         private final boolean exactMatch;
         
         public QuerySwingWorker(String query, boolean caseSensitive, boolean exactMatch) {
+            disableGUI();
             this.query = query;
             this.caseSensitive = caseSensitive;
             this.exactMatch = exactMatch;
@@ -75,6 +99,48 @@ public class MainFrame extends javax.swing.JFrame {
         protected void done() {
             // Swap the result sets.
             results.swapList(result);
+            enableGUI();
+        }
+    
+    }
+    
+    /**
+     * This swing worker constructs spreadsheets out of the supplied files.
+     */
+    private class ConstructorSwingWorker extends SwingWorker<Void,Void> {
+
+        private final File[] files;
+        private File exceptionSource;
+        private SpreadsheetImplException exception;
+        
+        public ConstructorSwingWorker(File[] files) {
+            disableGUI();
+            this.files = files;
+        }
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+            spreadsheets = new HashSet<>();
+            for (File file : files) {
+                try {
+                    spreadsheets.add(new SpreadsheetImpl(file));
+                } catch (SpreadsheetImplException e) {
+                    exceptionSource = file;
+                    exception = e;
+                    break;
+                }
+            }
+            return null;
+        }   
+        
+        @Override
+        protected void done() {
+            if (exception == null)
+                filesTextField.setText(Arrays.toString(files));
+            else
+                System.out.println("There was a problem when opening the "
+                        + "file " + exceptionSource + ": " + exception);
+            enableGUI();
         }
     
     }
@@ -226,16 +292,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void fileChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserButtonActionPerformed
         int retval = fileChooser.showOpenDialog(this);
         if (retval == JFileChooser.APPROVE_OPTION) {
-            File[] files = fileChooser.getSelectedFiles();
-            filesTextField.setText(Arrays.toString(files));
-            spreadsheets = new HashSet<>();
-            for (File file : files) {
-                try {
-                    spreadsheets.add(new SpreadsheetImpl(file));
-                } catch (SpreadsheetImplException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            new ConstructorSwingWorker(fileChooser.getSelectedFiles()).execute();
         }
     }//GEN-LAST:event_fileChooserButtonActionPerformed
 
