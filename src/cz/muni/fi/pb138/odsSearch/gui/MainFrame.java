@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private final JFileChooser fileChooser = new JFileChooser();
     private Set<Queriable<Cell>> spreadsheets = new HashSet<>();
-    private final ResultListModel results = new ResultListModel();
+    private final ResultTableModel results = new ResultTableModel();
     private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
             + "pb138/odsSearch/gui/MainFrame");
     private final JComponent[] interactables;
@@ -35,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
         init();
         interactables = new JComponent[] {
             fileChooserButton, submitButton, caseSensitiveCheckBox,
-            exactMatchCheckBox, resultList
+            exactMatchCheckBox, resultTable
         };
     }
     
@@ -50,6 +50,8 @@ public class MainFrame extends javax.swing.JFrame {
         fileChooser.setFileFilter(new FileNameExtensionFilter(
                 bundle.getString("fileExtensionODS"), "ods"));
         fileChooser.setDialogTitle(bundle.getString("fileChooserTitle"));
+        // Set up the table sorting.
+        resultTable.setAutoCreateRowSorter(true);
     }
     
     /**
@@ -79,8 +81,12 @@ public class MainFrame extends javax.swing.JFrame {
         private final boolean caseSensitive;
         private final boolean exactMatch;
         
-        public QuerySwingWorker(String query, boolean caseSensitive, boolean exactMatch) {
+        public QuerySwingWorker(String query, boolean caseSensitive,
+                boolean exactMatch) {
+            // Disable the GUI.
+            submitButton.setText(bundle.getString("submitButtonLabelActive"));
             disableGUI();
+            // Set up the private members.
             this.query = query;
             this.caseSensitive = caseSensitive;
             this.exactMatch = exactMatch;
@@ -88,17 +94,21 @@ public class MainFrame extends javax.swing.JFrame {
         
         @Override
         protected Void doInBackground() throws Exception {
-            for (Queriable<Cell> finder : spreadsheets) {
+            for (Queriable<Cell> finder : spreadsheets)
                 result.addAll(finder.queryFixedString(query,
                         caseSensitive, exactMatch));
-            }
             return null;
         }
         
         @Override
         protected void done() {
+            // Display the number of results.
+            resultTableLabel.setText(bundle.getString("resultTableLabel") +
+                    (result.size() > 0 ? " (" + result.size() + "):" : ":"));
             // Swap the result sets.
             results.swapList(result);
+            // Reenable the GUI.
+            submitButton.setText(bundle.getString("submitButtonLabel"));
             enableGUI();
         }
     
@@ -114,7 +124,11 @@ public class MainFrame extends javax.swing.JFrame {
         private SpreadsheetImplException exception;
         
         public ConstructorSwingWorker(File[] files) {
+            // Disable the GUI.
+            fileChooserButton.setText(bundle.getString(
+                    "fileChooserButtonLabelActive"));
             disableGUI();
+            // Set up the private members.
             this.files = files;
         }
         
@@ -140,6 +154,9 @@ public class MainFrame extends javax.swing.JFrame {
             else
                 System.out.println("There was a problem when opening the "
                         + "file " + exceptionSource + ": " + exception);
+            // Reenable the GUI.
+            fileChooserButton.setText(bundle.getString(
+                    "fileChooserButtonLabel"));
             enableGUI();
         }
     
@@ -154,6 +171,8 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         filesTextField = new javax.swing.JTextField();
         fileChooserButton = new javax.swing.JButton();
         filesTextFieldLabel = new javax.swing.JLabel();
@@ -163,9 +182,22 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         queryTextArea = new javax.swing.JTextArea();
         submitButton = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        resultList = new javax.swing.JList<>();
-        resultListLabel = new javax.swing.JLabel();
+        resultTableLabel = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        resultTable = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(bundle.getString("mainTitle")
@@ -209,10 +241,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        resultList.setModel(results);
-        jScrollPane3.setViewportView(resultList);
+        resultTableLabel.setText(bundle.getString("resultTableLabel") + ":");
 
-        resultListLabel.setText(bundle.getString("resultListLabel"));
+        resultTable.setModel(results);
+        jScrollPane4.setViewportView(resultTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,7 +253,6 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -243,8 +274,9 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(caseSensitiveCheckBox)
                                     .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(resultListLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(resultTableLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -254,7 +286,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(filesTextFieldLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(filesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(filesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(fileChooserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -267,11 +299,11 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(exactMatchCheckBox)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(submitButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resultListLabel)
+                .addComponent(resultTableLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -319,11 +351,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField filesTextField;
     private javax.swing.JLabel filesTextFieldLabel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea queryTextArea;
     private javax.swing.JLabel queryTextAreaLabel;
-    private javax.swing.JList<String> resultList;
-    private javax.swing.JLabel resultListLabel;
+    private javax.swing.JTable resultTable;
+    private javax.swing.JLabel resultTableLabel;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }

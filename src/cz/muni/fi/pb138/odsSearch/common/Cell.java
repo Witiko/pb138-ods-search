@@ -95,7 +95,7 @@ public class Cell {
      * Returns the column name in base 26.
      * @return the column name in base 26.
      */
-    public String getColumnName() {
+    public String getColumnString() {
         return base10to26(coln);
     }
     
@@ -129,7 +129,7 @@ public class Cell {
     @Override
     public String toString() {
         return "[Spreadsheet " + spreadsheet + ", table " + table +
-                ", row " + rown + ", column " + getColumnName() + ": " +
+                ", row " + rown + ", column " + getColumnString() + ": " +
                 content + "]";
     }
     
