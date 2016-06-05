@@ -23,8 +23,8 @@ public class SpreadsheetImplTest {
     List<Spreadsheet> spreadsheets = new ArrayList<>();
     
     public SpreadsheetImplTest() throws SpreadsheetImplException {
-        for (File f : new File[] { new File("resources/example1.ods"),
-                                   new File("resources/example2.ods") } )
+        for (File f : new File[] { new File("test/cz/muni/fi/pb138/odsSearch/common/example1.ods"),
+                                   new File("test/cz/muni/fi/pb138/odsSearch/common/example2.ods") } )
             spreadsheets.add(new SpreadsheetImpl(f));
     }
 
@@ -195,8 +195,6 @@ public class SpreadsheetImplTest {
         for (Spreadsheet s : spreadsheets) {
             Cell expected  = new Cell(s, "IMDB Top 250 movies", 25, 1, "The Usual Suspects");
             Cell returned = s.getCell("IMDB Top 250 movies", 25, 1);
-            System.out.println("Expected: " + expected.toString());
-            System.out.println("Returned: " + returned.toString());
             Assert.assertTrue(expected.equals(returned));
         }
     }
@@ -205,9 +203,7 @@ public class SpreadsheetImplTest {
     public void getCellTest02() {
         for (Spreadsheet s : spreadsheets) {
             Cell expected  = new Cell(s, "MLB 2016 Standings", 11, 2, "Detroit Tigers");
-            Cell returned = s.getCell("IMDB Top 250 movies", 11, 2);
-            System.out.println("Expected: " + expected.toString());
-            System.out.println("Returned: " + returned.toString());
+            Cell returned = s.getCell("MLB 2016 Standings", 11, 2);
             Assert.assertTrue(expected.equals(returned));
         }
     }
@@ -215,10 +211,8 @@ public class SpreadsheetImplTest {
     @Test
     public void getCellTest03() {
         for (Spreadsheet s : spreadsheets) {
-            Cell expected  = new Cell(s, "Popular baby names", 2, 3, "Olivia");
-            Cell returned = s.getCell("Popular baby names", 2, 3);
-            System.out.println("Expected: " + expected.toString());
-            System.out.println("Returned: " + returned.toString());
+            Cell expected  = new Cell(s, "Popular baby names", 3, 3, "Olivia");
+            Cell returned = s.getCell("Popular baby names", 3, 3);
             Assert.assertTrue(expected.equals(returned));
         }
     }
