@@ -19,8 +19,8 @@ import org.apache.commons.cli.ParseException;
 public class Main {
 
     private static final Options options = new Options();
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"
-            + "pb138/odsSearch/cli/Main");
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("cz/"
+            + "muni/fi/pb138/odsSearch/cli/Main");
 
     /**
      * Construct and provide GNU-compatible Options.
@@ -106,7 +106,8 @@ public class Main {
             final int spacesBeforeOption, 
             final int spacesBeforeOptionDescription, final boolean displayUsage,
             final OutputStream out) {
-        final String commandLineSyntax = "java -cp pb138-ods-search.jar [-h] [-i] [-s <arg>] [-x] [FILE]...";
+        final String commandLineSyntax = "java -jar pb138-ods-search-cli.jar "
+                + "[-h] [-i] -s <arg> [-x] [FILE]...";
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp(writer, printedRowWidth, commandLineSyntax,
