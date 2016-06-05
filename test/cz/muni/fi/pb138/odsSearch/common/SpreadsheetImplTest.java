@@ -17,14 +17,16 @@ import java.util.Set;
 /**
  * This class tests the implementation of the queryFixedString method of the
  * class cz.muni.fi.pb138.odsSearch.common.OdsFinder.
- * @author Matej Majer, Vít Novotný
+ * @author Matej Majer, Vít Novotný <wtiiko@mail.muni.cz>
  */
 public class SpreadsheetImplTest {
     List<Spreadsheet> spreadsheets = new ArrayList<>();
     
     public SpreadsheetImplTest() throws SpreadsheetImplException {
-        for (File f : new File[] { new File("test/cz/muni/fi/pb138/odsSearch/common/example1.ods"),
-                                   new File("test/cz/muni/fi/pb138/odsSearch/common/example2.ods") } )
+        for (File f : new File[] { new File("test/cz/muni/fi/pb138/odsSearch/"
+                                           + "common/example1.ods"),
+                                   new File("test/cz/muni/fi/pb138/odsSearch/"
+                                           + "common/example2.ods") } )
             spreadsheets.add(new SpreadsheetImpl(f));
     }
 
@@ -72,8 +74,10 @@ public class SpreadsheetImplTest {
     public void caseSensivePartialMatch01() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "MLB 2016 Standings", 7, 2, "Cleveland Indians"));
-            expected.add(new Cell(s, "IMDB Top 250 movies", 102, 1, "Indiana Jones and the Last Crusade"));
+            expected.add(new Cell(s, "MLB 2016 Standings", 7, 2, 
+                    "Cleveland Indians"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 102, 1, 
+                    "Indiana Jones and the Last Crusade"));
             Set<Cell> returned = s.queryFixedString(
                     "Indian", true, false);
             Assert.assertTrue(expected.equals(returned));
@@ -84,9 +88,12 @@ public class SpreadsheetImplTest {
     public void caseSensivePartialMatch02() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "IMDB Top 250 movies", 9, 1, "The Good, the Bad and the Ugly"));
-            expected.add(new Cell(s, "IMDB Top 250 movies", 17, 1, "Goodfellas"));
-            expected.add(new Cell(s, "IMDB Top 250 movies", 115, 1, "Good Will Hunting"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 9, 1, 
+                    "The Good, the Bad and the Ugly"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 17, 1, 
+                    "Goodfellas"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 115, 1, 
+                    "Good Will Hunting"));
             Set<Cell> returned = s.queryFixedString(
                     "Good", true, false);
             Assert.assertTrue(expected.equals(returned));
@@ -97,9 +104,12 @@ public class SpreadsheetImplTest {
     public void caseSensivePartialMatch03() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "IMDB Top 250 movies", 168, 1, "Mary a Max"));
-            expected.add(new Cell(s, "IMDB Top 250 movies", 227, 1, "The Martian"));
-            expected.add(new Cell(s, "MLB 2016 Standings", 3, 2, "Seattle Mariners"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 168, 1, 
+                    "Mary a Max"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 227, 1, 
+                    "The Martian"));
+            expected.add(new Cell(s, "MLB 2016 Standings", 3, 2, 
+                    "Seattle Mariners"));
             Set<Cell> returned = s.queryFixedString(
                     "Mar", true, false);
             Assert.assertTrue(expected.equals(returned));
@@ -113,8 +123,10 @@ public class SpreadsheetImplTest {
     public void caseInsensitiveExactMatch01() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "Popular baby names", 4, 2, "Alexander"));
-            expected.add(new Cell(s, "Popular baby names", 9, 2, "ALEXANDER"));
+            expected.add(new Cell(s, "Popular baby names", 4, 2, 
+                    "Alexander"));
+            expected.add(new Cell(s, "Popular baby names", 9, 2,
+                    "ALEXANDER"));
             Set<Cell> returned = s.queryFixedString(
                     "Alexander", false, true);
             Assert.assertTrue(expected.equals(returned));
@@ -150,7 +162,8 @@ public class SpreadsheetImplTest {
     public void caseInsensitivePartialMatch01() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "IMDB Top 250 movies", 230, 1, "Fanny and Alexander"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 230, 1, 
+                    "Fanny and Alexander"));
             expected.add(new Cell(s, "Popular baby names", 4, 2, "Alexander"));
             expected.add(new Cell(s, "Popular baby names", 9, 2, "ALEXANDER"));
             Set<Cell> returned = s.queryFixedString(
@@ -165,8 +178,10 @@ public class SpreadsheetImplTest {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
             expected.add(new Cell(s, "IMDB Top 250 movies", 50, 1,
-                    "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb"));
-            expected.add(new Cell(s, "MLB 2016 Standings", 13, 2, "Los Angeles Angels"));
+                    "Dr. Strangelove or: How I Learned to Stop Worrying and "
+                            + "Love the Bomb"));
+            expected.add(new Cell(s, "MLB 2016 Standings", 13, 2, "Los Angeles "
+                    + "Angels"));
             Set<Cell> returned = s.queryFixedString(
                     "AnGEl", false, false);
             Assert.assertTrue(expected.equals(returned));
@@ -178,8 +193,10 @@ public class SpreadsheetImplTest {
     public void caseInsensitivePartialMatch03() {
         for (Spreadsheet s : spreadsheets) {
             Set<Cell> expected = new HashSet<>();
-            expected.add(new Cell(s, "IMDB Top 250 movies", 2, 1, "The Godfather"));
-            expected.add(new Cell(s, "IMDB Top 250 movies", 3, 1, "The Godfather: Part II"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 2, 1, 
+                    "The Godfather"));
+            expected.add(new Cell(s, "IMDB Top 250 movies", 3, 1, 
+                    "The Godfather: Part II"));
             Set<Cell> returned = s.queryFixedString(
                     "godFather", false, false);
             Assert.assertTrue(expected.equals(returned));
@@ -193,7 +210,8 @@ public class SpreadsheetImplTest {
     @Test
     public void getCellTest01() {
         for (Spreadsheet s : spreadsheets) {
-            Cell expected  = new Cell(s, "IMDB Top 250 movies", 25, 1, "The Usual Suspects");
+            Cell expected  = new Cell(s, "IMDB Top 250 movies", 25, 1, "The "
+                    + "Usual Suspects");
             Cell returned = s.getCell("IMDB Top 250 movies", 25, 1);
             Assert.assertTrue(expected.equals(returned));
         }
@@ -202,7 +220,8 @@ public class SpreadsheetImplTest {
     @Test
     public void getCellTest02() {
         for (Spreadsheet s : spreadsheets) {
-            Cell expected  = new Cell(s, "MLB 2016 Standings", 11, 2, "Detroit Tigers");
+            Cell expected  = new Cell(s, "MLB 2016 Standings", 11, 2, "Detroit "
+                    + "Tigers");
             Cell returned = s.getCell("MLB 2016 Standings", 11, 2);
             Assert.assertTrue(expected.equals(returned));
         }
