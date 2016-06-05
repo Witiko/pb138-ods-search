@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * This class represents the main frame of the GUI of ods-search.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
-public class MainFrame extends javax.swing.JFrame {
+public final class MainFrame extends javax.swing.JFrame {
 
     private final JFileChooser fileChooser = new JFileChooser();
     private Set<Queriable<Cell>> spreadsheets = new HashSet<>();

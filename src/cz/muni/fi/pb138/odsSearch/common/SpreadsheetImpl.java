@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
  * This class represents an Open Document Spreadsheet.
  * @author Matěj Majer, Vít Novotný <witiko@mail.muni.cz>
  */
-public class SpreadsheetImpl implements Spreadsheet {
+public final class SpreadsheetImpl implements Spreadsheet {
 
     private File document;
     private byte[] xmlData;

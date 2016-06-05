@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
  * This class represents a table that represents the 3x3 context of a cell.
  * @author Vit Novotny <witiko@mail.muni.cz>
  */
-public class ContextTableModel extends AbstractTableModel {
+final class ContextTableModel extends AbstractTableModel {
  
     public Cell focus;
     

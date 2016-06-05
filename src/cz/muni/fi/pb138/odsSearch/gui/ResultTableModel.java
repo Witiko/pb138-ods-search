@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
  * This class represents a table of results.
  * @author Vit Novotny <witiko@mail.muni.cz>
  */
-public class ResultTableModel extends AbstractTableModel {
+final class ResultTableModel extends AbstractTableModel {
  
     public List<Cell> results = new ArrayList<>();
     private final ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/"

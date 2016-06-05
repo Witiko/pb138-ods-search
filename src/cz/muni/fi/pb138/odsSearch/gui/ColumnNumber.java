@@ -7,7 +7,7 @@ import java.util.Map;
  * This class represents a column number and the related utility functions.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
-public final class ColumnNumber implements Comparable<ColumnNumber> {
+final class ColumnNumber implements Comparable<ColumnNumber> {
     
     private final int coln;
     private static final Map<Integer, ColumnNumber> pool = new HashMap<>();

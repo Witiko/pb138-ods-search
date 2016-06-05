@@ -5,7 +5,7 @@ package cz.muni.fi.pb138.odsSearch.common;
  * Spreadsheet file.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
-public class SpreadsheetImplException extends Exception {
+public final class SpreadsheetImplException extends Exception {
     public SpreadsheetImplException() { super(); }
     public SpreadsheetImplException(String message) { super(message); }
     public SpreadsheetImplException(String message, Throwable cause) {

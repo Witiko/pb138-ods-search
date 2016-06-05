@@ -10,7 +10,7 @@ import javax.xml.xpath.XPathVariableResolver;
  * any injection vulnerability.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
-class XPathVariableResolverImpl implements XPathVariableResolver {
+final class XPathVariableResolverImpl implements XPathVariableResolver {
   Map<String, String> mapping = new HashMap<>();
 
   /**

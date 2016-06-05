@@ -10,7 +10,7 @@ import java.util.Set;
  * testing of the gui.MainFrame and cli.Main classes.
  * @author Vít Novotný <witiko@mail.muni.cz>
  */
-public class DummySpreadsheetImpl implements Spreadsheet {
+public final class DummySpreadsheetImpl implements Spreadsheet {
     
     File document;
     

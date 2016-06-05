@@ -13,10 +13,9 @@ import org.apache.commons.cli.ParseException;
 
 /**
  * This class represents the CLI of ods-search.
- *
  * @author Petr Kratochvila
  */
-public class Main {
+public final class Main {
 
     private static final Options options = new Options();
     private static final ResourceBundle bundle = ResourceBundle.getBundle("cz/"
