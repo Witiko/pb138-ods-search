@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -91,12 +92,14 @@ public class SpreadsheetImpl implements Spreadsheet {
         /* Try to convert the XML document into an intermediary document via
            XSLT. This will also parse the input document and therefore check
            its well-formedness. */
-        File transformFile = new File("resources/transform.xsl");
+        InputStream transformInputStream = this.getClass().
+                getResourceAsStream("transform.xsl");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); 
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer;
         try {
-            transformer = tf.newTransformer(new StreamSource(transformFile));
+            transformer = tf.newTransformer(new StreamSource(
+                    transformInputStream));
         } catch(TransformerConfigurationException e) {
             throw new SpreadsheetImplException("Couldn't create a XSLT "
                     + "transformer.", e);
@@ -111,12 +114,12 @@ public class SpreadsheetImpl implements Spreadsheet {
         xmlData = outputStream.toByteArray();
         
         // Validate the intermediary document against a XML Schema.
-        File schemaFile = new File("resources/transformed.xsd");
+        URL schemaURL = this.getClass().getResource("transformed.xsd");
         SchemaFactory sf =  SchemaFactory.newInstance(
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema;
         try {
-            schema = sf.newSchema(schemaFile);
+            schema = sf.newSchema(schemaURL);
         } catch (SAXException e) {
             throw new SpreadsheetImplException("Couldn't create a XML "
                     + "schema instance.", e);
