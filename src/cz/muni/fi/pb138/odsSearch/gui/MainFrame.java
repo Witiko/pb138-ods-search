@@ -59,6 +59,9 @@ public class MainFrame extends javax.swing.JFrame {
         fileChooser.setFileFilter(new FileNameExtensionFilter(
                 bundle.getString("fileExtensionODS"), "ods"));
         fileChooser.setDialogTitle(bundle.getString("fileChooserTitle"));
+        // Set up the result table renderers.
+        resultTable.setDefaultRenderer(ColumnNumber.class,
+                new ColumnNumberCellRenderer());
         // Set up the context table.
         ListSelectionModel cellSelectionModel = resultTable.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

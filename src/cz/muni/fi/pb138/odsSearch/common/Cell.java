@@ -75,31 +75,6 @@ public class Cell {
     }
     
     /**
-     * Converts a number from base 10 to base 26.
-     * @param num the input number.
-     * @return the number in base 26.
-     */
-    private String base10to26(int num) {
-        StringBuilder result = new StringBuilder();
-        while (num > 0) {
-          num--;
-          int remainder = num % 26;
-          char digit = (char) (remainder + 65);
-          result.append(digit);
-          num = (num - remainder) / 26;
-        }
-        return result.reverse().toString();
-    }
-    
-    /**
-     * Returns the column name in base 26.
-     * @return the column name in base 26.
-     */
-    public String getColumnString() {
-        return base10to26(coln);
-    }
-    
-    /**
      * Returns the cell content.
      * @return the cell content.
      */
@@ -129,7 +104,7 @@ public class Cell {
     @Override
     public String toString() {
         return "[Spreadsheet " + spreadsheet + ", table " + table +
-                ", row " + rown + ", column " + getColumnString() + ": " +
+                ", row " + rown + ", column " + getColumnNumber() + ": " +
                 content + "]";
     }
     

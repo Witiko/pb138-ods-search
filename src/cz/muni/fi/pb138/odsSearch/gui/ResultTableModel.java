@@ -57,7 +57,7 @@ public class ResultTableModel extends AbstractTableModel {
             case 2:
                 return cell.getRowNumber();
             case 3:
-                return cell.getColumnNumber();
+                return ColumnNumber.get(cell.getColumnNumber());
             case 4:
                 return cell.getContent();
             default:
@@ -89,8 +89,9 @@ public class ResultTableModel extends AbstractTableModel {
             case 0:
                 return Spreadsheet.class;
             case 2:
-            case 3:
                 return Integer.class;
+            case 3:
+                return ColumnNumber.class;
             case 1:
             case 4:
                 return String.class;
