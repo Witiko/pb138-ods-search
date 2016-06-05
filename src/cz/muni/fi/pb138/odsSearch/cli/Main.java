@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -48,7 +48,7 @@ public class Main {
      */
     public static void processCommandLineArguments(
             final String[] commandLineArguments) {
-        final CommandLineParser cmdLineGnuParser = new GnuParser();
+        final CommandLineParser cmdLineGnuParser = new DefaultParser();
         final Options gnuOptions = constructGnuOptions();
         CommandLine commandLine;
 
@@ -78,7 +78,7 @@ public class Main {
         } catch (ParseException parseException) // checked exception
         {
             System.err.println(
-                    "Encountered exception while parsing using GnuParser:\n"
+                    "Encountered exception while parsing using DefaultParser:\n"
                     + parseException.getMessage());
         }
     }
