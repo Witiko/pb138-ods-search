@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pb138.odsSearch.common;
 
 /**
@@ -13,6 +8,7 @@ package cz.muni.fi.pb138.odsSearch.common;
 public class SpreadsheetImplException extends Exception {
     public SpreadsheetImplException() { super(); }
     public SpreadsheetImplException(String message) { super(message); }
-    public SpreadsheetImplException(String message, Throwable cause) { super(message, cause); }
+    public SpreadsheetImplException(String message, Throwable cause) {
+        super(message, cause); }
     public SpreadsheetImplException(Throwable cause) { super(cause); }
 }

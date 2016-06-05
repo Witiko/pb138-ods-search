@@ -2,9 +2,7 @@ package cz.muni.fi.pb138.odsSearch.gui;
 
 import cz.muni.fi.pb138.odsSearch.common.Cell;
 import cz.muni.fi.pb138.odsSearch.common.Spreadsheet;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
