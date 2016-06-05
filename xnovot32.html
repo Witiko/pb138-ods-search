@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Vít Novotný" />
+  <title>Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</h1>
+<h1 class="subtitle">Závěrečná zpráva</h1>
+<h2 class="author">Vít Novotný</h2>
+</div>
+<p>V rámci projektu jsem na počátku nastudoval strukturu formátu Open Document a navrhnul celkovou strukturu výsledného kódu. Samostatně jsem implementoval uživatelské grafické rozhraní obsažené v balíku <code>gui</code> včetně jeho české a anglické lokalizace a podílel jsem se na implementaci zbývajících dvou balíků <code>common</code> a <code>cli</code> implementující hlavní výkonný kód a konzolové rozhraní. V rámci balíku <code>common</code> jsem nejen pomáhal s přípravou využitého XML schématu a XSLT transformace, ale i přímo rozšiřoval Javovou implementaci. V rámci balíku <code>cli</code> jsem pouze zprostředkovával code reviews.</p>
+<p>Zároveň jsem sepsal přehledovou dokumentaci k balíkům <code>common</code> a <code>gui</code> včetně grafických podkladů. Tuto dokumentaci jsem uveřejnil ve wiki spojené s Gitovým repozitářem projektu v rámci služby GitHub. Rovněž jsem připravil detailní dokumentaci, která je dostupná formou JavaDocu v rámci zdrojových souborů třídy. Rovněž jsem zodpovědný za vypracování textu licenčního ujednání a zabalení výsledného kódu do javových archivů pro konzolovou a grafickou verzi programu.</p>
+<p>Tímto jsem shrnul svůj přínos projektu. Abych vyčerpal požadovaný prostor, popíšu nyní hlavní narativ vývoje. Náš program umožňuje full-textově vyhledávat v sešitech formátu Open Document. Prvotní myšlenkou bylo deserializovat vstupní dokument na javové objekty a následné prohledávání implementovat bez dalšího využití XML technologií. Shodli jsme se, že takové řešení by bylo v rámci tohoto předmětu nedostačující.</p>
+<p>V druhotné implementaci jsme se tedy vydali jiným směrem. Vstupní dokument je nejprve zkontrolován s ohledem na strukturu a v dobré víře v jeho validitu je předán XSLT procesoru, který dokument zredukuje na zjednodušený formát vhodný pro vyhledávání.</p>
+<p>Toto řešení je robustní v tom smyslu, že validita vstupního dokumentu je podmínkou dostačující, ale nikoliv nutnou, pro úspěšnou transformaci a lze tedy zpracovávat i dokumenty v rozšířeném formátu, které mohou nad rámec schématu obsahovat libovolné dodatečné elementy a atributy, což znemožňuje jejich strojovou validaci.</p>
+<p>Výsledný dokument v zjednodušeném formátu je validován vůči příslušnému XML schématu a následné vyhledávání probíhá formou XPath výrazů. Shodli jsme se, že toto řešení bylo lepším testem znalostí nabytých v rámci tohoto předmětu.</p>
+</body>
+</html>
