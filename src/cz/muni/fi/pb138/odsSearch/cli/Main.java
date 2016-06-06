@@ -72,8 +72,8 @@ public final class Main {
             } else {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
-                Boolean caseSensitive = commandLine.hasOption("I")
-                        || commandLine.hasOption("ignore-case");
+                Boolean caseSensitive = !commandLine.hasOption("I")
+                        && !commandLine.hasOption("ignore-case");
                 Boolean exactMatching = commandLine.hasOption('x')
                         || commandLine.hasOption("exact-match");
                 // ... convert the files to an internal representation ...
