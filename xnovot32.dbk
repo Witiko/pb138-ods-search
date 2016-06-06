@@ -35,32 +35,4 @@ Tým B</title>
   licenčního ujednání a zabalení výsledného kódu do javových archivů pro
   konzolovou a grafickou verzi programu.
 </para>
-<para>
-  Tímto jsem shrnul svůj přínos projektu. Abych vyčerpal požadovaný
-  prostor, popíšu nyní hlavní narativ vývoje. Náš program umožňuje
-  full-textově vyhledávat v sešitech formátu Open Document. Prvotní
-  myšlenkou bylo deserializovat vstupní dokument na javové objekty a
-  následné prohledávání implementovat bez dalšího využití XML
-  technologií. Shodli jsme se, že takové řešení by bylo v rámci tohoto
-  předmětu nedostačující.
-</para>
-<para>
-  V druhotné implementaci jsme se tedy vydali jiným směrem. Vstupní
-  dokument je nejprve zkontrolován s ohledem na strukturu a v dobré víře
-  v jeho validitu je předán XSLT procesoru, který dokument zredukuje na
-  zjednodušený formát vhodný pro vyhledávání.
-</para>
-<para>
-  Toto řešení je robustní v tom smyslu, že validita vstupního dokumentu
-  je podmínkou dostačující, ale nikoliv nutnou, pro úspěšnou
-  transformaci a lze tedy zpracovávat i dokumenty v rozšířeném formátu,
-  které mohou nad rámec schématu obsahovat libovolné dodatečné elementy
-  a atributy, což znemožňuje jejich strojovou validaci.
-</para>
-<para>
-  Výsledný dokument v zjednodušeném formátu je validován vůči
-  příslušnému XML schématu a následné vyhledávání probíhá formou XPath
-  výrazů. Shodli jsme se, že toto řešení bylo lepším testem znalostí
-  nabytých v rámci tohoto předmětu.
-</para>
 </article>
