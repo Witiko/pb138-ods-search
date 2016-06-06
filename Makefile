@@ -1,5 +1,5 @@
 .PHONY: all clean
-REPORTS=xnovot32
+REPORTS=xnovot32 xmarkos
 OUTPUT=$(addsuffix .pdf, $(REPORTS)) $(addsuffix .html, $(REPORTS)) \
 			 $(addsuffix .dbk, $(REPORTS))
 all: $(OUTPUT)
