@@ -24,6 +24,7 @@ public final class Main {
     private static final Options options = new Options();
     private static final ResourceBundle bundle = ResourceBundle.getBundle("cz/"
             + "muni/fi/pb138/odsSearch/cli/Main");
+    private static final String applicationName = "odsSearch";
 
     /**
      * Construct and provide GNU-compatible Options.
@@ -62,6 +63,10 @@ public final class Main {
                 System.out.println(bundle.getString("appDescription"));
                 printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false,
                         System.out);
+               
+            } else if(!commandLine.hasOption("s")) {
+                System.out.println(bundle.getString("noStringArgument"));
+                printUsage(applicationName, constructGnuOptions(), System.out);
             } else {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
@@ -91,7 +96,7 @@ public final class Main {
                 }
             }
         } catch (ParseException e) {
-            System.err.println("Could not parse the options: " + e);
+            System.err.println(bundle.getString("argumentProcessingError") + ": " + e.getMessage());
         }
     }
 
@@ -143,7 +148,6 @@ public final class Main {
      * @param commandLineArguments Commmand-line arguments.
      */
     public static void main(final String[] commandLineArguments) {
-        final String applicationName = "odsSearch";
         if (commandLineArguments.length < 1) {
             printUsage(applicationName, constructGnuOptions(), System.out);
         }
