@@ -1,8 +1,12 @@
 package cz.muni.fi.pb138.odsSearch.cli;
 
+import cz.muni.fi.pb138.odsSearch.common.Cell;
+import cz.muni.fi.pb138.odsSearch.common.Spreadsheet;
+import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImpl;
+import cz.muni.fi.pb138.odsSearch.common.SpreadsheetImplException;
+import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -47,38 +51,47 @@ public final class Main {
      */
     public static void processCommandLineArguments(
             final String[] commandLineArguments) {
-        final CommandLineParser cmdLineGnuParser = new DefaultParser();
-        final Options gnuOptions = constructGnuOptions();
-        CommandLine commandLine;
-
+        CommandLineParser cmdLineGnuParser = new DefaultParser();
+        Options gnuOptions = constructGnuOptions();
+        
         try {
-            commandLine = cmdLineGnuParser.parse(gnuOptions, 
-                          commandLineArguments, false);
-            if (commandLine.hasOption("i") 
-                || commandLine.hasOption("case-sensitive")) {
-                System.out.println("Using case sensitive search\n");
-            }
-            if (commandLine.hasOption('x') 
-                || commandLine.hasOption("exact-match")) {
-                System.out.println("Using exact match search\n");
-            }
+            CommandLine commandLine = cmdLineGnuParser.parse(gnuOptions,
+                    commandLineArguments, false);
             if (commandLine.hasOption("h") || commandLine.hasOption("help")) {
+                // Print help when asked to.
                 System.out.println(bundle.getString("appDescription"));
-
-                printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false, 
-                          System.out);
+                printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false,
+                        System.out);
+            } else {
+                // Otherwise, get the options ...
+                String string = commandLine.getOptionValue("s");
+                Boolean caseSensitive = !commandLine.hasOption("i")
+                        || commandLine.hasOption("ignore-case");
+                Boolean exactMatching = commandLine.hasOption('x')
+                        || commandLine.hasOption("exact-match");
+                // ... convert the files to an internal representation ...
+                for (String filename : commandLine.getArgs()) {
+                    File file = new File(filename);
+                    Spreadsheet spreadsheet;
+                    try {
+                        spreadsheet = new SpreadsheetImpl(file);
+                        // ... and print out the results of the query. TODO: Discuss retruning false value in case of no matches found
+                        for (Cell cell : spreadsheet.queryFixedString(string,
+                                caseSensitive, exactMatching)) {
+                            System.out.println(cell);
+                        }
+                    } catch (SpreadsheetImplException e) {
+                        /* Be graceful about the exceptions. Do not let a single
+                         document that cannot be parsed ruin the day for the
+                         rest. */
+                        System.err.println(bundle.getString(
+                                "speadsheetProcessingError")
+                                + ": " + e.getMessage());
+                    }
+                }
             }
-
-            // To be replaced
-            System.out.println("Files: " 
-                               + Arrays.toString(commandLine.getArgs()) + "\n"
-                               + "String: " + commandLine.getOptionValue("s"));
-
-        } catch (ParseException parseException) // checked exception
-        {
-            System.err.println(
-                    "Encountered exception while parsing using DefaultParser:\n"
-                    + parseException.getMessage());
+        } catch (ParseException e) {
+            System.err.println("Could not parse the options: " + e);
         }
     }
 
@@ -99,6 +112,14 @@ public final class Main {
 
     /**
      * Write "help" to the provided OutputStream.
+     * @param options
+     * @param printedRowWidth
+     * @param header
+     * @param footer
+     * @param spacesBeforeOption
+     * @param spacesBeforeOptionDescription
+     * @param displayUsage
+     * @param out
      */
     public static void printHelp(final Options options, 
             final int printedRowWidth, final String header, final String footer, 
@@ -128,5 +149,6 @@ public final class Main {
         }
 
         processCommandLineArguments(commandLineArguments);
+
     }
 }
