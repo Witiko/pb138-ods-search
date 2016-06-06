@@ -1,6 +1,6 @@
 .PHONY: all clean implode
 SLIDES=slides.pdf
-REPORTS=xnovot32 xmarkos
+REPORTS=xnovot32 xmarkos xmajer2
 OUTPUT=$(addsuffix .pdf, $(REPORTS)) $(addsuffix .html, $(REPORTS)) \
 			 $(addsuffix .dbk, $(REPORTS)) $(SLIDES)
 
