@@ -61,12 +61,13 @@ public final class Main {
             if (commandLine.hasOption("h") || commandLine.hasOption("help")) {
                 // Print help when asked to.
                 System.out.println(bundle.getString("appDescription"));
+                printUsage();
                 printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false,
                         System.out);
                
             } else if(!commandLine.hasOption("s")) {
                 System.out.println(bundle.getString("noStringArgument"));
-                printUsage(applicationName, constructGnuOptions(), System.out);
+                printUsage();
             } else {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
@@ -96,7 +97,8 @@ public final class Main {
                 }
             }
         } catch (ParseException e) {
-            System.err.println(bundle.getString("argumentProcessingError") + ": " + e.getMessage());
+            System.err.println(bundle.getString("argumentProcessingError") + 
+                               ": " + e.getMessage());
         }
     }
 
@@ -107,12 +109,10 @@ public final class Main {
      * @param options Command-line options to be part of usage.
      * @param out OutputStream to which to write the usage information.
      */
-    public static void printUsage(final String applicationName,
-            final Options options, final OutputStream out) {
-        final PrintWriter writer = new PrintWriter(out);
-        final HelpFormatter usageFormatter = new HelpFormatter();
-        usageFormatter.printUsage(writer, 80, applicationName, options);
-        writer.flush();
+    public static void printUsage() {
+        System.out.println(bundle.getString("usage") + 
+                ": java -jar pb138-ods-search-cli.jar [-h] [-I] -s <arg> [-x]" +
+                " [FILE]...");
     }
 
     /**
@@ -131,8 +131,7 @@ public final class Main {
             final int spacesBeforeOption, 
             final int spacesBeforeOptionDescription, final boolean displayUsage,
             final OutputStream out) {
-        final String commandLineSyntax = "java -jar pb138-ods-search-cli.jar "
-                + "[-h] [-I] -s <arg> [-x] [FILE]...";
+        final String commandLineSyntax = "";
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp(writer, printedRowWidth, commandLineSyntax,
@@ -149,10 +148,10 @@ public final class Main {
      */
     public static void main(final String[] commandLineArguments) {
         if (commandLineArguments.length < 1) {
-            printUsage(applicationName, constructGnuOptions(), System.out);
+            printUsage();
+        } else {
+            processCommandLineArguments(commandLineArguments);
         }
-
-        processCommandLineArguments(commandLineArguments);
 
     }
 }
