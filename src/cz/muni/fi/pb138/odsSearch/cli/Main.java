@@ -32,8 +32,8 @@ public final class Main {
      */
     public static Options constructGnuOptions() {
         final Options gnuOptions = new Options();
-        gnuOptions.addOption("i", "case-sensitive", false, 
-                             bundle.getString("caseSensitiveDescription"))
+        gnuOptions.addOption("i", "ignore-case", false, 
+                             bundle.getString("caseInsensitiveDescription"))
                   .addOption("x", "exact-match", false, 
                              bundle.getString("exactMatchDescription"))
                   .addOption("s", "string", true, 
@@ -66,7 +66,7 @@ public final class Main {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
                 Boolean caseSensitive = !commandLine.hasOption("i")
-                        || commandLine.hasOption("ignore-case");
+                        && !commandLine.hasOption("ignore-case");
                 Boolean exactMatching = commandLine.hasOption('x')
                         || commandLine.hasOption("exact-match");
                 // ... convert the files to an internal representation ...
