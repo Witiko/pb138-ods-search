@@ -82,11 +82,11 @@ public final class SpreadsheetImpl implements Spreadsheet {
                 inputStream = new FileInputStream(document);
             } catch(FileNotFoundException f) {
                 throw new SpreadsheetImplException("The file `" + document +
-                        " cannot be found.", f);
+                        "` cannot be found.", f);
             }
         } catch (IOException e) {
             throw new SpreadsheetImplException("The file `" + document +
-                    " cannot be opened.", e);            
+                    "` cannot be opened.", e);            
         }
         
         /* Try to convert the XML document into an intermediary document via
