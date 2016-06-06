@@ -105,9 +105,6 @@ public final class Main {
     /**
      * Print usage information to provided OutputStream.
      *
-     * @param applicationName Name of application to list in usage.
-     * @param options Command-line options to be part of usage.
-     * @param out OutputStream to which to write the usage information.
      */
     public static void printUsage() {
         System.out.println(bundle.getString("usage") + 
