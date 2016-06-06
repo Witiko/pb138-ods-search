@@ -33,7 +33,7 @@ public final class Main {
      */
     public static Options constructGnuOptions() {
         final Options gnuOptions = new Options();
-        gnuOptions.addOption("I", "case-sensitive", false, 
+        gnuOptions.addOption("I", "case-insensitive", false, 
                              bundle.getString("caseInsensitiveDescription"))
                   .addOption("x", "exact-match", false, 
                              bundle.getString("exactMatchDescription"))
@@ -71,7 +71,7 @@ public final class Main {
             } else {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
-                Boolean caseSensitive = !commandLine.hasOption("I")
+                Boolean caseSensitive = commandLine.hasOption("I")
                         || commandLine.hasOption("case-insensitive");
                 Boolean exactMatching = commandLine.hasOption('x')
                         || commandLine.hasOption("exact-match");
