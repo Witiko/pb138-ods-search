@@ -104,8 +104,8 @@ public class Cell {
     @Override
     public String toString() {
         return "[Spreadsheet " + spreadsheet + ", table " + table +
-                ", row " + rown + ", column " + getColumnNumber() + ": " +
-                content + "]";
+                ", row " + rown + ", column " + getColumnNumber() + "]: " +
+                content;
     }
     
 }
