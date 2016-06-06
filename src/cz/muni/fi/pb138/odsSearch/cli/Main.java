@@ -50,7 +50,7 @@ public final class Main {
      *
      * @param commandLineArguments Command-line arguments to be processed.
      */
-    public static void processCommandLineArguments(
+    public static boolean processCommandLineArguments(
             final String[] commandLineArguments) {
         CommandLineParser cmdLineGnuParser = new DefaultParser();
         Options gnuOptions = constructGnuOptions();
@@ -81,11 +81,16 @@ public final class Main {
                     Spreadsheet spreadsheet;
                     try {
                         spreadsheet = new SpreadsheetImpl(file);
-                        // ... and print out the results of the query. TODO: Discuss retruning false value in case of no matches found
+                        String output = "";
+                        // ... and print out the results of the query.
                         for (Cell cell : spreadsheet.queryFixedString(string,
                                 caseSensitive, exactMatching)) {
-                            System.out.println(cell);
+                            output += cell;
                         }
+                        if (output.isEmpty()) {
+                            return false;
+                        }
+                        System.out.println(output);
                     } catch (SpreadsheetImplException e) {
                         /* Be graceful about the exceptions. Do not let a single
                          document that cannot be parsed ruin the day for the
@@ -100,6 +105,7 @@ public final class Main {
             System.err.println(bundle.getString("argumentProcessingError") + 
                                ": " + e.getMessage());
         }
+        return true;
     }
 
     /**
@@ -147,7 +153,7 @@ public final class Main {
         if (commandLineArguments.length < 1) {
             printUsage();
         } else {
-            processCommandLineArguments(commandLineArguments);
+            System.exit(processCommandLineArguments(commandLineArguments) ? 0 : 1);
         }
 
     }
