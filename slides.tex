@@ -1,0 +1,119 @@
+\documentclass{beamer}
+% Boilerplate.
+\usepackage[czech,main=english]{babel}
+\usepackage[utf8]{inputenc}
+\usetheme{fibeamer}
+\usepackage[tightLists=false]{markdown}
+% Metadata.
+\title{Searching Open Document Spreadsheets}
+\subtitle{Java Implementation, Team B}
+\author{M. Majer, S. Markosová, V. Novotný, and P. Kratochvíla}
+% Markup.
+\let\acro\MakeUppercase
+% Document.
+\begin{document}
+\frame{\maketitle}
+\begin{markdown*}{
+  hybrid, cacheDir = /tmp/markdown,
+  smartEllipses, startNumber = false,
+  renderers={
+    headingOne = {\frametitle{#1}},
+    headingTwo = {\framesubtitle{#1}},
+    emphasis = {\alert{#1}},
+    image = {\begin{center}
+      \includegraphics[width=.8\textwidth]{#2}
+    \end{center}}
+  }
+}
+\begin{darkframes}
+\begin{frame}
+
+# Analysis
+## The Open Document Format specification
+
+\acro{ods} documents come in two flavours
+
+  1. _\acro{xml} documents_ and
+  2. _\acro{zip} archives_ containing the file `content.xml`.
+
+and are usually extended.
+
+  * The spec permits _the inclusion of arbitrary elements and attributes_
+    beyond what is specified by the Relax \acro{NG} schema.
+
+_Holes_ in tables are represented by a single cell with the
+`number-rows` and `columns-repeated` attributes.
+
+  * This makes it difficult to tell the coordinates of a cell without
+    pre-processing the entire document beforehand.
+
+\end{frame}
+\begin{frame}
+
+# Design
+## The high-level overview
+
+There are three packages.
+
+  * _`common`_ -- The effective code for processing ODS documents,
+    * Assigned to Matěj Majer and Svetlana Markosová.
+  * _`cli`_ -- The command-line interface of the program,
+    * Assigned to Petr Kratochvíla.
+  * _`gui`_ -- The graphical user interface of the program.
+    * Assigned to Vít Novotný.
+
+\end{frame}
+\begin{frame}
+
+# The _`common`_ package
+## The first draft
+
+ 1. Deserialize the input \acro{xml} files to a tree structure of Java objects
+    that correspond to the pruned \acro{dom} tree with coordinates added to
+    the cells.
+ 2. Perform any further queries on this internal java object representation.
+
+Straightforward, but makes sparse use of \acro{xml} technologies. Therefore,
+this draft was scrapped.
+
+\end{frame}
+\begin{frame}
+
+# The _`common`_ package
+## The second draft
+
+ 1. Convert the input \acro{xml} files to an intermediary \acro{xml} format
+    with resolved cell coordinates via a \acro{xslt} transformation.
+ 2. Unlike the extended \acro{ods} documents, this intermediary format can
+    now be validated against a \acro{xml} schema.
+ 3. Perform any further queries on this internal \acro{xml} representation
+    via XPath.
+
+Extensive use of \acro{xml} technologies. This draft was implemented.
+
+\end{frame}
+\begin{frame}
+
+# The _`gui`_ package
+
+\vspace{-1em}
+
+ ![gui](gui.png "The \acro{swing} \acro{gui}")
+
+\end{frame}
+\begin{frame}
+
+# The _`cli`_ package
+
+    usage: java -jar pb138-ods-search.jar
+                [-h] [-i] [-x] -s <arg> [FILE]...
+
+       -h,----help             Help
+       -i,----ignore-case      Use case-insensitive search
+       -s,----string <arg>     String to be used for search
+       -x,----exact-match      Use exact match search
+
+\end{frame}
+\end{darkframes}
+\end{markdown*}
+\end{document}
