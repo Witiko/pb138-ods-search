@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -54,6 +55,7 @@ public final class Main {
             final String[] commandLineArguments) {
         CommandLineParser cmdLineGnuParser = new DefaultParser();
         Options gnuOptions = constructGnuOptions();
+        Boolean anyResults = false;
         
         try {
             CommandLine commandLine = cmdLineGnuParser.parse(gnuOptions,
@@ -61,7 +63,6 @@ public final class Main {
             if (commandLine.hasOption("h") || commandLine.hasOption("help")) {
                 // Print help when asked to.
                 System.out.println(bundle.getString("appDescription"));
-                printUsage();
                 printHelp(constructGnuOptions(), 80, "\n", "\n", 5, 3, false,
                         System.out);
                
@@ -81,16 +82,14 @@ public final class Main {
                     Spreadsheet spreadsheet;
                     try {
                         spreadsheet = new SpreadsheetImpl(file);
-                        String output = "";
+                        Set<Cell> result = spreadsheet.queryFixedString(string,
+                                caseSensitive, exactMatching);
+                        if (!result.isEmpty())
+                            anyResults = true;
                         // ... and print out the results of the query.
-                        for (Cell cell : spreadsheet.queryFixedString(string,
-                                caseSensitive, exactMatching)) {
-                            output += cell;
+                        for (Cell cell : result) {
+                            System.out.println(cell);
                         }
-                        if (output.isEmpty()) {
-                            return false;
-                        }
-                        System.out.println(output);
                     } catch (SpreadsheetImplException e) {
                         /* Be graceful about the exceptions. Do not let a single
                          document that cannot be parsed ruin the day for the
@@ -105,7 +104,7 @@ public final class Main {
             System.err.println(bundle.getString("argumentProcessingError") + 
                                ": " + e.getMessage());
         }
-        return true;
+        return anyResults;
     }
 
     /**
@@ -134,7 +133,8 @@ public final class Main {
             final int spacesBeforeOption, 
             final int spacesBeforeOptionDescription, final boolean displayUsage,
             final OutputStream out) {
-        final String commandLineSyntax = "";
+        final String commandLineSyntax = "java -jar pb138-ods-search-cli.jar "
+                + "[-h] [-I] -s <arg> [-x] [FILE]...";
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp(writer, printedRowWidth, commandLineSyntax,
