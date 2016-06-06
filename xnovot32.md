@@ -19,7 +19,7 @@ XSLT transformace, ale i přímo rozšiřoval Javovou implementaci. V rámci bal
 
 Zároveň jsem sepsal přehledovou dokumentaci k balíkům `common` a `gui` včetně
 grafických podkladů. Tuto dokumentaci jsem uveřejnil ve wiki spojené s Gitovým
-repozitářem projektu v rámci služby GitHub. Rovněž jsem připravil detailní
+repozitářem projektu v rámci služby GitHub. Dále jsem připravil detailní
 dokumentaci, která je dostupná formou JavaDocu v rámci zdrojových souborů
 třídy. Rovněž jsem zodpovědný za vypracování textu licenčního ujednání a
 zabalení výsledného kódu do javových archivů pro konzolovou a grafickou verzi
