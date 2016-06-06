@@ -32,7 +32,7 @@ public final class Main {
      */
     public static Options constructGnuOptions() {
         final Options gnuOptions = new Options();
-        gnuOptions.addOption("i", "case-sensitive", false, 
+        gnuOptions.addOption("I", "case-sensitive", false, 
                              bundle.getString("caseSensitiveDescription"))
                   .addOption("x", "exact-match", false, 
                              bundle.getString("exactMatchDescription"))
@@ -65,8 +65,8 @@ public final class Main {
             } else {
                 // Otherwise, get the options ...
                 String string = commandLine.getOptionValue("s");
-                Boolean caseSensitive = !commandLine.hasOption("i")
-                        || commandLine.hasOption("ignore-case");
+                Boolean caseSensitive = !commandLine.hasOption("I")
+                        || commandLine.hasOption("case-sensitive");
                 Boolean exactMatching = commandLine.hasOption('x')
                         || commandLine.hasOption("exact-match");
                 // ... convert the files to an internal representation ...
@@ -127,7 +127,7 @@ public final class Main {
             final int spacesBeforeOptionDescription, final boolean displayUsage,
             final OutputStream out) {
         final String commandLineSyntax = "java -jar pb138-ods-search-cli.jar "
-                + "[-h] [-i] -s <arg> [-x] [FILE]...";
+                + "[-h] [-I] -s <arg> [-x] [FILE]...";
         final PrintWriter writer = new PrintWriter(out);
         final HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp(writer, printedRowWidth, commandLineSyntax,
