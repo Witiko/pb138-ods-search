@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Petr Kratochvíla" />
+  <title>Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</h1>
+<h1 class="subtitle">Závěrečná zpráva</h1>
+<h2 class="author">Petr Kratochvíla</h2>
+</div>
+<p>Moje práce na projektu spočívala v implementaci rozhraní příkazové řádky v balíčku <code>cz.muni.fi.pb138.odsSearch.cli</code> pro konzolovou verzi programu. Aplikace zpracovává argumenty příkazové řádky určující způsob vyhledávání, seznam prohledávaných souborů a hledaný řetězec. Součástí je i nápověda se seznamem všech argumentů a řetězec způsobou použití.</p>
+<p>Samotná implementace využívá knihovnu <em>Apache Commons CLI</em> ke zpracování argumentů a tvorbu nápovědy. Jedná se o knihovnu určenou spíše pro rozsáhlejší aplikace s větší množinou vstupních argumentů. Nicméně vybral jsem tuto variantu s přihlédnutím k možnosti dalšího rozšíření a výukový chrakter aplikace.</p>
+<p>Po zpracování argumentů je postupně každý soubor společně s argumenty zpracován jdárem aplikace a výsledky předány na standardní výstup. Aplikace používá GNU-like syntax argumentů.</p>
+</body>
+</html>
