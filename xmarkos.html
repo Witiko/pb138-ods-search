@@ -9,11 +9,13 @@
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
-<div id="header">
-<h1 class="title">Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</h1>
-<h1 class="subtitle">Záverečná správa</h1>
-<h2 class="author">Svetlana Markosová</h2>
-</div>
-<p>V rámci projektu som najskôr preštudovala súbor <code>content.xml</code> obsahujúci dáta určené na prehľadávanie. Kvôli nevhodnej reprezentácii polohy buniek som pripravila XSLT transformáciu tohto dokumentu do jednoduchšieho XML formátu, v ktorom sa budú dať ľahko určiť súradnice jednotlivých buniek. Ďalej som pre takto vzniknutý súbor napísala XML schému. V rámci balíka <code>common</code> som pripravila XPath výrazy pre vyhľadávanie podľa určených parametrov. V rámci balíka <code>gui</code> som spolupracovala na slovenskej lokalizácii.</p>
+  <div id="header">
+    <h1 class="title">Vyhledávání dat v souboru ve formátu Open Document Spreadsheet (Java) Tým B</h1>
+    <h1 class="subtitle">Záverečná správa</h1>
+    <h2 class="author">Svetlana Markosová</h2>
+  </div>
+  <p>V rámci projektu som vytvorila XSLT transformáciu pôvodného dokumentu a k nemu som napísala XML schému. Navrhla som XPath výrazy použité pre vyhľadávanie podľa daných parametrov. V rámci balíka <code>gui</code> som spolupracovala na slovenskej lokalizácii.</p>
+  <p>Najskôr som preštudovala súbor <code>content.xml</code> obsahujúci dáta určené na prehľadávanie. Zistila som, že obsahuje nadbytok informácií nepotrebných pre fulltextové vyhľadávanie, čo okrem iného zvyšuje pravdepodobnosť vzniku chýb. Navyše reprezentácia dier v tabuľke je riešená zvláštnym spôsobom, a to jediným elementom nesúcim informáciu o počte za sebou nasledujúcich prázdnych riadkov alebo stĺpcov. Kvôli tomu by bolo počítanie súradníc bunky problematické. Vytvorila som XSLT transformáciu, ktorá daný dokument prevedie do jednoduchšieho XML formátu. Tento pomocou atribútov popisuje bunku súradnicami. Ďalej som pre takto vzniknutý súbor napísala XML schému.</p>
+  <p>V rámci balíka <code>common</code> som ešte pripravila XPath výrazy pre vyhľadávanie podľa určených parametrov. Jediný menší problém mohol predstavovať fakt, že XPath verzie 1 neponúka funkciu, ktorá vykoná hľadanie necitlivé na veľkosť písmen (XPath 2.0 ponúka funkciu <code>match()</code> s príznakom <code>-i</code>). Vyriešila som to prevádzaním veľkosti písmen celého výrazu pomocou XPath funkcie <code>translate()</code>. Tá si v implementácii pomáha javovými metódami <code>toLowerCase()</code> a <code>toUpperCase()</code>, ale na tej časti už pracovali kolegovia.</p>
 </body>
 </html>

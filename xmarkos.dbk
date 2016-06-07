@@ -13,14 +13,12 @@ Tým B</title>
     </authorgroup>
   </articleinfo>
 <para>
-  V rámci projektu som najskôr preštudovala súbor
-  <literal>content.xml</literal> obsahujúci dáta určené na
-  prehľadávanie. Kvôli nevhodnej reprezentácii polohy buniek som
-  pripravila XSLT transformáciu tohto dokumentu do jednoduchšieho XML
-  formátu, v ktorom sa budú dať ľahko určiť súradnice jednotlivých
-  buniek. Ďalej som pre takto vzniknutý súbor napísala XML schému. V
-  rámci balíka <literal>common</literal> som pripravila XPath výrazy pre
-  vyhľadávanie podľa určených parametrov. V rámci balíka
-  <literal>gui</literal> som spolupracovala na slovenskej lokalizácii.
+  V rámci projektu som vytvorila XSLT transformáciu pôvodného dokumentu a k nemu som napísala XML schému. Navrhla som XPath výrazy použité pre vyhľadávanie podľa daných parametrov. V rámci balíka <literal>gui</literal> som spolupracovala na slovenskej lokalizácii.
+</para>
+<para>
+  Najskôr som preštudovala súbor <literal>content.xml</literal> obsahujúci dáta určené na prehľadávanie. Zistila som, že obsahuje nadbytok informácií nepotrebných pre fulltextové vyhľadávanie, čo okrem iného zvyšuje pravdepodobnosť vzniku chýb. Navyše reprezentácia dier v tabuľke je riešená zvláštnym spôsobom, a to jediným elementom nesúcim informáciu o počte za sebou nasledujúcich prázdnych riadkov alebo stĺpcov. Kvôli tomu by bolo počítanie súradníc bunky problematické. Vytvorila som XSLT transformáciu, ktorá daný dokument prevedie do jednoduchšieho XML formátu. Tento pomocou atribútov popisuje bunku súradnicami. Ďalej som pre takto vzniknutý súbor napísala XML schému.
+</para>
+<para>
+  V rámci balíka <literal>common</literal> som ešte pripravila XPath výrazy pre vyhľadávanie podľa určených parametrov. Jediný menší problém mohol predstavovať fakt, že XPath verzie 1 neponúka funkciu, ktorá vykoná hľadanie necitlivé na veľkosť písmen (XPath 2.0 ponúka funkciu <literal>match()</literal> s príznakom <literal>-i</literal>). Vyriešila som to prevádzaním veľkosti písmen celého výrazu pomocou XPath funkcie <literal>translate()</literal>. Tá si v implementácii pomáha javovými metódami <literal>toLowerCase()</literal> a <literal>toUpperCase()</literal>, ale na tej časti už pracovali kolegovia.
 </para>
 </article>
