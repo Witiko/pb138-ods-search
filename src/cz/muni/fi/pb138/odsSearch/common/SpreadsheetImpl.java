@@ -200,8 +200,6 @@ public final class SpreadsheetImpl implements Spreadsheet {
         xpath.setXPathVariableResolver(vars);
         
         // Perform the query.
-        Set<Cell> result = performXPathQuery(xpath, expression);
-        Iterator<Cell> i = result.iterator();
         return performXPathQuery(xpath, expression);
     }
 
